@@ -19,7 +19,10 @@ class ProDetail(object):
     def getContentPhotos(self):
         proDetailImgs=list()
         for proImg in self.getContent().findAll('img'):
-            proDetailImgs.append(proImg.attrs['src'].replace('\\"', ''))
+            tempSrc=proImg.attrs['src'].replace('\\"', '')
+            if 'http:' not in tempSrc and 'https:' not in tempSrc:
+                tempSrc='http:'+tempSrc
+            proDetailImgs.append(tempSrc)
         return proDetailImgs
     def saveContentPhotos(self):
         DownPhotos(self.getContentPhotos(),self.path+'/详情图').save()
